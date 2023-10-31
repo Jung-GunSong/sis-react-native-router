@@ -1,16 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { NativeRouter} from "react-router-native";
-import RouteList from './RouteList';
+import Navigation from './Navigation';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <NativeRouter>
-        <RouteList />
-      </NativeRouter>
+      <Navigation />
     </View>
-
   );
 }
 
@@ -20,5 +16,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    minWidth:'100%'
   },
 });
