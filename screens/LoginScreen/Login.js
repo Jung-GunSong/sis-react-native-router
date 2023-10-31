@@ -1,78 +1,89 @@
-import { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
+import { useContext, useState } from "react";
+import { StyleSheet, Text, View, TextInput, Pressable, SafeAreaView } from 'react-native';
+import userContext from "../../userContext";
 
-const initialLoginFormData = { username: "", password: "" };
 
-function Login(){
+/** Login: Render username and password inputs and button.
+ *
+ * State
+ * username: string
+ * password: string
+ */
 
-  // const [loginData, setLoginData] = useState(initialLoginFormData);
-     const [username, setUsername] = useState("");
-     const [password, setPassword] = useState("");
+function Login() {
+  const { loginUser } = useContext(userContext);
 
-  // async function handleSubmit(evt) {
-  //   evt.preventDefault();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  //   try {
-  //     // await login(loginData);
-  //     setLoginData(initialLoginFormData);
-  //     navigate("/");
-  //   } catch (err) {
-  //     setErrors(err[0].message);
-  //   }
-  // }
+  async function handleSubmit() {
+    console.log('INSIDE HANDLE SUBMIT BUTTON LOGIN');
 
-  function handleSubmit(){
-    console.warn('button has been pressed');
+    try {
+      await loginUser(username, password);
+    }
+    catch {
+      console.warn('loginUser failed');
+    }
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TextInput placeholder="Username"
-      style={styles.textInput}
-      value={username}
-      onChangeText={setUsername}
-       />
-      <Text>Please appear</Text>
-    </View>
-      // <TextInput placeholder="Password"
-      //  style={styles.textInput}
-      //  value={password}
-      //  onChangeText={setPassword}
-      //  secureTextEntry
-      //   />
-      //   <Pressable onPress={handleSubmit}>
-      //     <Text style={styles.button}>Button</Text>
-      //   </Pressable>
+        style={styles.textInput}
+        value={username}
+        onChangeText={setUsername}
+      />
+
+      <TextInput placeholder="Password"
+        style={styles.textInput}
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      <Pressable onPress={handleSubmit}>
+        <Text style={styles.button}>Button</Text>
+      </Pressable>
+    </SafeAreaView>
 
   );
 
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    minWidth:'100%'
+  container: {
+    flex: 1,
+    maxWidth: '70%',
+    minWidth: '70%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+
   },
 
-  textInput:{
-    minWidth:'70%',
+  textInput: {
+    minWidth: '100%',
+    maxWidth: '100%',
     borderColor: '#808080',
     borderWidth: 1,
     borderRadius: 5,
     marginVertical: 5,
     paddingHorizontal: 1,
+    height: '5%',
   },
 
-  button:{
-    backgroundColor:'#3B71F3',
-    minWidth:'70%',
-    padding:5,
-    marginVertical:5,
+  button: {
+    backgroundColor: '#3B71F3',
+    minWidth: '70%',
+    maxWidth: '70%',
+    padding: 5,
+    marginVertical: 5,
+    alignSelf: 'center',
     textAlign: 'center',
     borderRadius: 5,
     fontWeight: 'bold',
-    color:'white',
+    color: 'white',
   }
-})
+});
 
-export default Login
+export default Login;

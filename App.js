@@ -1,21 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView, Text } from 'react-native';
 import Navigation from './Navigation';
+import { useState } from 'react';
+import SisApi from './api';
+import userContext from "./userContext";
 
+/** App: Renders navigation for entire app.  */
 export default function App() {
+  const [token, setToken] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState();
+
+  /** Logs a user in */
+  async function loginUser(username, password) {
+    console.log("inside loginUser of app")
+    token = await SisApi.login(username, password);
+    localStorage.setItem("token", token);
+    setToken(token);
+  }
+
   return (
-    <View style={styles.container}>
+    <userContext.Provider value={{ loginUser }}>
       <Navigation />
-    </View>
+    </userContext.Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth:'100%'
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: 'red',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     minWidth:'100%'
+//   },
+// });
