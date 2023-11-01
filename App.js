@@ -8,7 +8,7 @@ import userContext from "./userContext";
 export default function App() {
   const [token, setToken] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState("");
 
   /** Logs a user in */
   async function loginUser(username, password) {
@@ -16,11 +16,16 @@ export default function App() {
     const resToken = await SisApi.login(username, password);
     console.log(`Our token is`, resToken);
     // localStorage.setItem("token", resToken);
-    setToken(resToken);
+
+    if (resToken) {
+      SisApi.token = resToken;
+      setToken(resToken);
+      setUser(username);
+    };
   }
 
   return (
-    <userContext.Provider value={{ loginUser }}>
+    <userContext.Provider value={{ loginUser, token }}>
       <Navigation />
     </userContext.Provider>
   );

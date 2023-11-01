@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { StyleSheet, Text, View, TextInput, Pressable, SafeAreaView } from 'react-native';
-import userContext from "../../userContext";
-
+import userContext from "./userContext";
+import { useNavigation } from "@react-navigation/native";
 
 /** Login: Render username and password inputs and button.
  *
@@ -16,15 +16,19 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigation = useNavigation()
+
   async function handleSubmit() {
     console.log('INSIDE HANDLE SUBMIT BUTTON LOGIN');
 
     try {
       await loginUser(username, password);
+      navigation.navigate('Homepage');
     }
     catch {
       console.warn('loginUser failed');
     }
+
   }
 
   return (

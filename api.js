@@ -1,9 +1,8 @@
-const BASE_URL = "http://192.168.0.246:8000/api";
+const BASE_URL = "http://localhost:8000/api";
 
 /** API Class.
  *
  */
-
 
 class SisApi {
 
@@ -11,9 +10,12 @@ class SisApi {
 
   static async request(endpoint, data = {}, method = "GET") {
     const url = new URL(`${BASE_URL}/${endpoint}`);
-    const headers = {
-      'Content-Type': 'application/json',
+    let headers = {
+      'content-type': 'application/json',
     };
+    if (this.token) {
+      headers['Authorization'] = `Token ${this.token}`;
+    }
 
     url.search = (method === "GET")
       ? new URLSearchParams(data).toString()
@@ -40,17 +42,11 @@ class SisApi {
   static async login(username, password) {
     console.log("inside login of SisApi")
 
-
     const data = { username, password };
 
     console.log("data inside login of SisApi:", data)
 
-    try{
-      let res = await this.request(`-token/`, data, 'POST');
-
-    }catch(err){
-      console.log(err)
-    }
+    let res = await this.request(`-token/`, data, 'POST');
 
     console.log(`Our response is`, res.token);
     return res.token;
