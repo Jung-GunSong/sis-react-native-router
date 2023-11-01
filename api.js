@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.1.79:8000/api";
+const BASE_URL = "http://192.168.0.246:8000/api";
 
 // justins: 192.168.0.246
 // nates: 192.168.1.79
@@ -19,6 +19,7 @@ class SisApi {
     if (this.token) {
       headers['Authorization'] = `Token ${this.token}`;
     }
+    console.log(`our headers are `, headers);
 
     url.search = (method === "GET")
       ? new URLSearchParams(data).toString()
@@ -48,6 +49,20 @@ class SisApi {
     let res = await this.request(`-token/`, data, 'POST');
 
     return res.token;
+  }
+
+  static async getLectures() {
+
+    let res = await this.request(`lecturesessions/`);
+
+    return res.results;
+  }
+
+  static async getLecture(id) {
+
+    let res = await this.request(`lecturesessions/${id}/`);
+
+    return res;
   }
 
 }
