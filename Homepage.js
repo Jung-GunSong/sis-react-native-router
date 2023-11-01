@@ -1,19 +1,28 @@
-import { View, Text, StyleSheet, SafeAreaView } from "react-native"
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import userContext from "./userContext";
 import { useContext } from "react";
+import Button from "./Button";
 
 
 /** Homepage to render after successful login. */
 
-function HomePage() {
-
+function Homepage() {
   const { user } = useContext(userContext);
+  const navigation = useNavigation()
+
+  function lecturePress() {
+    navigation.navigate('LectureView');
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Homepage</Text>
+      <Text style={styles.item}>Welcome!</Text>
+
+      <Button onPress={lecturePress} text="Lectures" style={styles.item}/>
+
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -23,8 +32,12 @@ const styles = StyleSheet.create({
     minWidth: '70%',
     alignSelf: 'center',
     justifyContent: 'center',
-
   },
-})
 
-export default HomePage;
+  item: {
+    minWidth: '70%',
+    alignSelf: 'center',
+  }
+});
+
+export default Homepage;

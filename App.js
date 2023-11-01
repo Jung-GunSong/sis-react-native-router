@@ -12,9 +12,8 @@ export default function App() {
 
   /** Logs a user in */
   async function loginUser(username, password) {
-    console.log("inside loginUser of app")
     const resToken = await SisApi.login(username, password);
-    console.log(`Our token is`, resToken);
+
     // localStorage.setItem("token", resToken);
 
     if (resToken) {

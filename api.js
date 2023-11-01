@@ -1,4 +1,7 @@
-const BASE_URL = "http://192.168.0.246:8000/api";
+const BASE_URL = "http://192.168.1.79:8000/api";
+
+// justins: 192.168.0.246
+// nates: 192.168.1.79
 
 /** API Class.
  *
@@ -40,15 +43,10 @@ class SisApi {
 
   /** Returns token upon logging in. */
   static async login(username, password) {
-    console.log("inside login of SisApi")
-
     const data = { username, password };
-
-    console.log("data inside login of SisApi:", data)
 
     let res = await this.request(`-token/`, data, 'POST');
 
-    console.log(`Our response is`, res.token);
     return res.token;
   }
 

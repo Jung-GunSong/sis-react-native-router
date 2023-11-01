@@ -3,14 +3,14 @@ import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './Login';
-import HomePage from "./HomePage";
+import Homepage from "./Homepage";
 import userContext from "./userContext";
+import LectureView from "./LectureView";
 
 const Stack = createNativeStackNavigator();
 
 function Navigation() {
   const { token } = useContext(userContext);
-  console.log("token in nav", token);
 
   return (
     <NavigationContainer>
@@ -21,7 +21,8 @@ function Navigation() {
         }
       }}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Homepage" component={HomePage} />
+        <Stack.Screen name="Homepage" component={Homepage} />
+        <Stack.Screen name="LectureView" component={LectureView} />
 
       </Stack.Navigator>
     </NavigationContainer>

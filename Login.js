@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
-import { StyleSheet, Text, View, TextInput, Pressable, SafeAreaView } from 'react-native';
+import { StyleSheet, TextInput, SafeAreaView } from 'react-native';
 import userContext from "./userContext";
 import { useNavigation } from "@react-navigation/native";
+import Button from "./Button";
 
 /** Login: Render username and password inputs and button.
  *
@@ -19,7 +20,6 @@ function Login() {
   const navigation = useNavigation()
 
   async function handleSubmit() {
-    console.log('INSIDE HANDLE SUBMIT BUTTON LOGIN');
 
     try {
       await loginUser(username, password);
@@ -46,9 +46,8 @@ function Login() {
         secureTextEntry
       />
 
-      <Pressable onPress={handleSubmit}>
-        <Text style={styles.button}>Button</Text>
-      </Pressable>
+      <Button text="Login" onPress={handleSubmit}/>
+
     </SafeAreaView>
 
   );
@@ -62,7 +61,6 @@ const styles = StyleSheet.create({
     minWidth: '70%',
     alignSelf: 'center',
     justifyContent: 'center',
-
   },
 
   textInput: {
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: '#3B71F3',
+    backgroundColor: '#f86161',
     minWidth: '70%',
     maxWidth: '70%',
     padding: 5,
