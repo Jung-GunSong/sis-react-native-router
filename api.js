@@ -1,7 +1,6 @@
-const BASE_URL = "http://192.168.0.246:8000/api";
+// const BASE_URL = "http://192.168.0.246:8000/api";
+const BASE_URL = "http://192.168.1.79:8000/api";
 
-// justins: 192.168.0.246
-// nates: 192.168.1.79
 
 /** API Class.
  *
@@ -19,7 +18,7 @@ class SisApi {
     if (this.token) {
       headers['Authorization'] = `Token ${this.token}`;
     }
-    console.log(`our headers are `, headers);
+    console.log('headers inside api,', headers)
 
     url.search = (method === "GET")
       ? new URLSearchParams(data).toString()

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Text, SafeAreaView, StyleSheet } from "react-native";
+import { Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
 import SisApi from "./api";
 import LectureCard from "./LectureCard";
+import { useNavigation } from "@react-navigation/native";
+import Button from "./Button";
 
 /** LectureView: See all lecture titles and schedule.
  */
@@ -9,23 +11,21 @@ import LectureCard from "./LectureCard";
 function LectureView() {
   const [isLoading, setIsLoading] = useState(true);
   const [lectureData, setLectureData] = useState();
+  const navigation = useNavigation();
 
   useEffect(function fetchLecturesWhenMounted() {
+    console.log("useeffect running lectureview")
     async function fetchLectures() {
-      // await lectures
-      // fetch from api/lecturessessions
-      // want array from results key
-      // want to dynamically generate lecture views for each object
-      //run map where we run api calls on each id
-      // use promise.all() to get new objects for each leacture
-      // set lectureData to this result
-      // map lecature Data to create LectureCard components
-      const initialLectureData = await SisApi.getLectures()
-      // console.log(`initial lecture data is`, initialLectureData);
-      const promiseArray = [];
-      initialLectureData.map(l => promiseArray.push(SisApi.getLecture(l.id)));
-      const lectureDetailedData = await Promise.all(promiseArray);
-      // console.log(`our detailed lecture data is`, lectureDetailedData);
+      const allLectures = await SisApi.getLectures();
+
+      console.log("all Lectures", allLectures);
+
+
+      const lecturePromises = [];
+      allLectures.map(l => lecturePromises.push(SisApi.getLecture(l.id)));
+      console.log("lecturePromises", lecturePromises);
+      const lectureDetailedData = await Promise.all(lecturePromises);
+      console.log("lectureDetailedData", lectureDetailedData);
       setLectureData(lectureDetailedData);
       setIsLoading(false);
     }
@@ -34,25 +34,31 @@ function LectureView() {
 
   }, []);
 
+  function homepagePress() {
+    navigation.navigate('Homepage');
+  }
+
   if (isLoading === true) {
     return (
       <SafeAreaView style={styles.container}>
-      <Text>Loading...</Text>
-    </SafeAreaView>
-    )
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
   }
 
-  console.log(`lectureData is `, lectureData);
   return (
     <SafeAreaView style={styles.container}>
-      <Text>LectureView</Text>
-      {lectureData &&
-      lectureData.map(l => (<LectureCard
-      key={l.id}
-      title={l.title}
-      description={l.description}
-      startAt={l.start_at}
-      staff={l.staff} />))}
+      <ScrollView>
+        <Button onPress={homepagePress} text="Home" style={styles.button} />
+        <Text style={styles.text}>LectureView</Text>
+        {lectureData &&
+          lectureData.map(l => (<LectureCard
+            key={l.id}
+            title={l.title}
+            description={l.description}
+            startAt={l.start_at}
+            staff={l.staff} />))}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -61,21 +67,14 @@ function LectureView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    maxWidth: '70%',
-    minWidth: '70%',
+    maxWidth: '100%',
+    minWidth: '100%',
     alignSelf: 'center',
     justifyContent: 'center',
   },
 
-  textInput: {
-    minWidth: '100%',
-    maxWidth: '100%',
-    borderColor: '#808080',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginVertical: 5,
-    paddingHorizontal: 1,
-    height: '5%',
+  text: {
+    alignSelf: 'center',
   },
 
   button: {
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontWeight: 'bold',
     color: 'white',
-  }
+  },
 });
 
 

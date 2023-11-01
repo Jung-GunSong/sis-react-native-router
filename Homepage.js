@@ -17,9 +17,9 @@ function Homepage() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.item}>Welcome!</Text>
+      <Text style={styles.text}>Welcome!</Text>
 
-      <Button onPress={lecturePress} text="Lectures" style={styles.item}/>
+      <Button onPress={lecturePress} text="Lectures" style={styles.button}/>
 
     </SafeAreaView>
   );
@@ -34,10 +34,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  item: {
+  text: {
     minWidth: '70%',
     alignSelf: 'center',
-  }
+  },
+
+  button: {
+    backgroundColor: '#f86161',
+    minWidth: '70%',
+    maxWidth: '70%',
+    padding: 5,
+    marginVertical: 5,
+    alignSelf: 'center',
+    textAlign: 'center',
+    borderRadius: 5,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
 
 export default Homepage;
