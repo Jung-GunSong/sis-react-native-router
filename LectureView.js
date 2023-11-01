@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import { Text, SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import SisApi from "./api";
 import LectureCard from "./LectureCard";
 import { useNavigation } from "@react-navigation/native";
@@ -14,16 +14,12 @@ function LectureView() {
   const navigation = useNavigation();
 
   useEffect(function fetchLecturesWhenMounted() {
-    console.log("useeffect running lectureview")
     async function fetchLectures() {
       const allLectures = await SisApi.getLectures();
-
-      console.log("all Lectures", allLectures);
-
-
       const lecturePromises = [];
+
       allLectures.map(l => lecturePromises.push(SisApi.getLecture(l.id)));
-      console.log("lecturePromises", lecturePromises);
+
       const lectureDetailedData = await Promise.all(lecturePromises);
       console.log("lectureDetailedData", lectureDetailedData);
       setLectureData(lectureDetailedData);
@@ -49,15 +45,37 @@ function LectureView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Button onPress={homepagePress} text="Home" style={styles.button} />
         <Text style={styles.text}>LectureView</Text>
-        {lectureData &&
-          lectureData.map(l => (<LectureCard
+        <Button onPress={homepagePress} text="Home" style={styles.button} />
+        <View>
+          {lectureData.filter(l => new Date() < new Date(l.start_at))
+          .length > 0 &&
+           <Text style={styles.text}>Future Lectures</Text> }
+
+          {lectureData &&
+          lectureData.filter(l => new Date() < new Date(l.start_at))
+          .map(l => (<LectureCard
             key={l.id}
             title={l.title}
             description={l.description}
             startAt={l.start_at}
             staff={l.staff} />))}
+
+        </View>
+        <View>
+          {lectureData.filter(l => new Date() > new Date(l.start_at))
+          .length > 0 &&
+           <Text style={styles.text}>Past Lectures</Text> }
+
+          {lectureData &&
+          lectureData.filter(l => new Date() > new Date(l.start_at))
+          .map(l => (<LectureCard
+            key={l.id}
+            title={l.title}
+            description={l.description}
+            startAt={l.start_at}
+            staff={l.staff} />))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
