@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000/api";
+const BASE_URL = "http://192.168.0.246:8000/api";
 
 /** API Class.
  *
