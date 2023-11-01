@@ -2,12 +2,15 @@ import { Text, View, StyleSheet } from "react-native"
 
 
 function LectureCard({title, description, staff, startAt}){
-
+  const startAtDate = new Date(startAt);
+  const readableDate = startAtDate.toDateString();
+  const readableTime = startAtDate.toLocaleTimeString();
   return(
     <View style={styles.container}>
       <Text style={styles.text}>Title: {title}</Text>
       <Text style={styles.text}>Description: {description}</Text>
-      <Text style={styles.text}>Starts At: {startAt}</Text>
+      <Text style={styles.text}>Date: {readableDate}</Text>
+      <Text style={styles.text}>Time: {readableTime}</Text>
     </View>
   )
 }
