@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './Login';
-import Homepage from "./Homepage";
+import HomePage from "./HomePage";
 import userContext from "./userContext";
 
 const Stack = createNativeStackNavigator();
@@ -21,7 +21,7 @@ function Navigation() {
         }
       }}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Homepage" component={Homepage} />
+        <Stack.Screen name="Homepage" component={HomePage} />
 
       </Stack.Navigator>
     </NavigationContainer>

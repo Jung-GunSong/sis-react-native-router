@@ -25,7 +25,7 @@ export default function App() {
   }
 
   return (
-    <userContext.Provider value={{ loginUser, token }}>
+    <userContext.Provider value={{ loginUser, token, user }}>
       <Navigation />
     </userContext.Provider>
   );
