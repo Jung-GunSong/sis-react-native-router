@@ -1,5 +1,5 @@
-// const BASE_URL = "http://192.168.0.246:8000/api";
-const BASE_URL = "http://192.168.1.79:8000/api";
+const BASE_URL = "http://192.168.0.246:8000/api";
+// const BASE_URL = "http://192.168.1.79:8000/api";
 
 
 /** API Class.
@@ -10,15 +10,20 @@ class SisApi {
 
   static token = null;
 
-  static async request(endpoint, data = {}, method = "GET") {
-    const url = new URL(`${BASE_URL}/${endpoint}`);
+  static async request(endpoint, data = {}, method = "GET", isUrl=false) {
+    let url;
+    if (isUrl === false){
+      url = new URL(`${BASE_URL}/${endpoint}`);
+    }else {
+      url = new URL(endpoint);
+    }
+
     let headers = {
       'content-type': 'application/json',
     };
     if (this.token) {
       headers['Authorization'] = `Token ${this.token}`;
     }
-    console.log('headers inside api,', headers)
 
     url.search = (method === "GET")
       ? new URLSearchParams(data).toString()
@@ -62,6 +67,20 @@ class SisApi {
     let res = await this.request(`lecturesessions/${id}/`);
 
     return res;
+  }
+
+  static async getStaffDetails(url){
+
+    let res = await this.request(url, {}, 'GET', true)
+
+    return res
+  }
+
+  static async getAllStaff(){
+
+    let res = await this.request(`staff/`)
+
+    return res.results;
   }
 
 }
