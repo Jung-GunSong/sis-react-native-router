@@ -20,8 +20,6 @@ function LectureCard({ title, description, staff, startAt }) {
   return (
 
     <View style={styles.container}>
-      {console.log(`Making a card`)}
-      {console.log(`Card title is`, title)}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.text}>Description: {description}</Text>
       <Text style={styles.text}>Date: {readableDate}</Text>

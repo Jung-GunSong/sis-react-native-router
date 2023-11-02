@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     minWidth: '100%',
     maxWidth: '100%',
     padding: 5,
-    marginVertical: 20,
+    marginTop: 60,
     alignSelf: 'center',
     textAlign: 'center',
     borderRadius: 4,

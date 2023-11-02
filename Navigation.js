@@ -1,16 +1,23 @@
-import React, { useContext } from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './Login';
-import Homepage from "./Homepage";
-import userContext from "./userContext";
+import Homepage from './HomePage'
 import LectureView from "./LectureView";
+import ExerciseView from "./ExerciseView";
 
 const Stack = createNativeStackNavigator();
 
+/**
+ * Allows client side navigation through of a stack navigator
+ *
+ * State:
+ * none
+ *
+ * Props:
+ * none
+ */
 function Navigation() {
-  const { token } = useContext(userContext);
 
   return (
     <NavigationContainer>
@@ -23,17 +30,12 @@ function Navigation() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Homepage" component={Homepage} />
         <Stack.Screen name="LectureView" component={LectureView} />
+        <Stack.Screen name="ExerciseView" component={ExerciseView} />
 
       </Stack.Navigator>
     </NavigationContainer>
   );
 
 }
-
-// const styles = StyleSheet.create({
-//   screen: {
-//     minWidth:'70%'
-//   },
-// });
 
 export default Navigation;

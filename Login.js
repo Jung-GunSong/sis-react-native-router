@@ -4,11 +4,18 @@ import userContext from "./userContext";
 import { useNavigation } from "@react-navigation/native";
 import Button from "./Button";
 
-/** Login: Render username and password inputs and button.
+/** Login: Render username and password inputs and login button.
  *
  * State
  * username: string
  * password: string
+ *
+ * Props:
+ * none
+ *
+ *
+ *
+ *
  */
 
 function Login() {
@@ -19,6 +26,9 @@ function Login() {
 
   const navigation = useNavigation()
 
+  // attempts to login user and redirect to homepage
+  //if unable to, will instead issue warning that
+  //login failed
   async function handleSubmit() {
 
     try {
@@ -74,6 +84,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     paddingHorizontal: 1,
     height: 50,
+    marginBottom: 10,
   },
 
   header: {
@@ -81,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: 'serif',
     alignSelf: 'center',
-    margin: 20,
+    marginBottom: 60,
   },
 });
 

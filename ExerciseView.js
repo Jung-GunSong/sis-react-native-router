@@ -5,20 +5,20 @@ import LectureCard from "./LectureCard";
 import { useNavigation } from "@react-navigation/native";
 import Button from "./Button";
 
-/** LectureView: See all list of lectures organized by most recent
+/** ExerciseView: See all list of lectures organized by most recent
  * lecture, then by future lectures and past lectures
  *
  * State:
  * -isLoading: boolean
- * -lectureData: array
+ * -exerciseData: array
  *
  * Props:
  * none
  */
 
-function LectureView() {
+function ExerciseView() {
   const [isLoading, setIsLoading] = useState(true);
-  const [lectureData, setLectureData] = useState();
+  const [exerciseData, setExerciseData] = useState();
   const navigation = useNavigation();
 
   /**
@@ -27,16 +27,16 @@ function LectureView() {
    * involved in each lecture
    *
    */
-  useEffect(function fetchLecturesWhenMounted() {
-    async function fetchLectures() {
-      const allLectures = await SisApi.getLectures();
-      const lecturePromises = [];
+  useEffect(function fetchExercisesWhenMounted() {
+    async function fetchExercises() {
+      const allExercises = await SisApi.getExercises();
+      const exercisePromises = [];
 
-      allLectures.map(l => lecturePromises.push(SisApi.getLecture(l.id)));
+      allExercises.map(l => exercisePromises.push(SisApi.getExercise(l.api_url)));
 
-      let lectureDetailedData = await Promise.all(lecturePromises);
+      let exerciseDetailedData = await Promise.all(exercisePromises);
 
-      lectureDetailedData = lectureDetailedData.sort(function (a, b) {
+      exerciseDetailedData = exerciseDetailedData.sort(function (a, b) {
         return (a.start_at < b.start_at) ?
           -1 :
           ((a.start_at > b.start_at) ?
@@ -44,38 +44,38 @@ function LectureView() {
             0);
       });
 
-      lectureDetailedData = await updateStaffDetails(lectureDetailedData);
-      console.log("after update staff", lectureDetailedData);
-      setLectureData(lectureDetailedData);
+      // exerciseDetailedData = await updateStaffDetails(exerciseDetailedData);
+      console.log("after update staff", exerciseDetailedData);
+      setExerciseData(exerciseDetailedData);
       setIsLoading(false);
     }
     /**
      * takes lecture data and edits staff data
      * to replace urls with that staff's full name
      */
-    async function updateStaffDetails(lectureData) {
-      const allStaffData = await SisApi.getAllStaff();
+    // async function updateStaffDetails(exerciseData) {
+    //   const allStaffData = await SisApi.getAllStaff();
 
-      const staffDirectory = {};
+    //   const staffDirectory = {};
 
-      console.log(`data from all staff fetch is`, allStaffData);
-      allStaffData.forEach((staff) => staffDirectory[staff.api_url] = staff.full_name);
-      console.log(`our staff directory is`, staffDirectory);
+    //   console.log(`data from all staff fetch is`, allStaffData);
+    //   allStaffData.forEach((staff) => staffDirectory[staff.api_url] = staff.full_name);
+    //   console.log(`our staff directory is`, staffDirectory);
 
-      for (let lecture of lectureData) {
+    //   for (let exercise of exerciseData) {
 
-        for (let i = 0; i < lecture.staff.length; i++) {
-          let staffUrl = lecture.staff[i];
-          if (staffDirectory[staffUrl]) {
-            lecture.staff[i] = staffDirectory[staffUrl];
-          }
-        }
-      }
+    //     for (let i = 0; i < exercise.staff.length; i++) {
+    //       let staffUrl = exercise.staff[i];
+    //       if (staffDirectory[staffUrl]) {
+    //         exercise.staff[i] = staffDirectory[staffUrl];
+    //       }
+    //     }
+    //   }
 
-      return lectureData;
-    }
+    //   return exerciseData;
+    // }
 
-    fetchLectures();
+    fetchExercises();
 
   }, []);
 
@@ -92,12 +92,13 @@ function LectureView() {
     );
   }
 
-  const futureLectures = lectureData.filter(l => new Date() < new Date(l.start_at));
-  const pastLectures = lectureData.filter(l => new Date() > new Date(l.start_at));
+  const futureExercises = exerciseData.filter(l => new Date() < new Date(l.start_at));
+  const pastExercises = exerciseData.filter(l => new Date() > new Date(l.start_at));
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <Text>You made it to exerciseview</Text>
+      {/* <ScrollView>
         <Button
           onPress={homepagePress}
           text="Home"
@@ -106,19 +107,19 @@ function LectureView() {
         <View>
           <Text style={styles.textHeader}>Upcoming Lecture:</Text>
           <LectureCard
-            title={futureLectures[0].title}
-            description={futureLectures[0].description}
-            startAt={futureLectures[0].start_at}
-            staff={futureLectures[0].staff}
+            title={futureExercises[0].title}
+            description={futureExercises[0].description}
+            startAt={futureExercises[0].start_at}
+            staff={futureExercises[0].staff}
           />
         </View>
 
         <View>
-          {futureLectures.slice(1).length > 0 &&
+          {futureExercises.slice(1).length > 0 &&
             <Text style={styles.textHeader}>Future Lectures:</Text>}
 
-          {lectureData &&
-            futureLectures
+          {exerciseData &&
+            futureExercises
               .slice(1)
               .map(l => (
                 <LectureCard
@@ -131,11 +132,11 @@ function LectureView() {
         </View>
 
         <View>
-          {pastLectures.length > 0 &&
+          {pastExercises.length > 0 &&
             <Text style={styles.textHeader}>Past Lectures:</Text>}
 
-          {lectureData &&
-            pastLectures.map(l => (
+          {exerciseData &&
+            pastExercises.map(l => (
               <LectureCard
                 key={l.id}
                 title={l.title}
@@ -145,7 +146,7 @@ function LectureView() {
             ))}
         </View>
 
-      </ScrollView>
+      </ScrollView> */}
     </SafeAreaView>
   );
 }
@@ -186,4 +187,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default LectureView;
+export default ExerciseView

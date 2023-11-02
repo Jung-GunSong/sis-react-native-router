@@ -1,20 +1,26 @@
-import { StyleSheet, SafeAreaView, Text } from 'react-native';
 import Navigation from './Navigation';
 import { useState } from 'react';
 import SisApi from './api';
 import userContext from "./userContext";
 
-/** App: Renders navigation for entire app.  */
+/** App: Renders navigation for entire app.
+ *
+ * State:
+ * token: string
+ * user: string
+ *
+ * Props:
+ * none
+  */
 export default function App() {
   const [token, setToken] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState("");
 
-  /** Logs a user in */
+  /** Logs a user in by retrieving token from api
+   * and setting token and user
+  */
   async function loginUser(username, password) {
     const resToken = await SisApi.login(username, password);
-
-    // localStorage.setItem("token", resToken);
 
     if (resToken) {
       SisApi.token = resToken;
@@ -29,13 +35,3 @@ export default function App() {
     </userContext.Provider>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: 'red',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     minWidth:'100%'
-//   },
-// });

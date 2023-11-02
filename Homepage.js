@@ -4,22 +4,36 @@ import userContext from "./userContext";
 import { useContext } from "react";
 import Button from "./Button";
 
+/** Homepage to render after successful login.
+ *
+ * State:
+ * none
+ *
+ * Props:
+ * user:string
+ */
 
-/** Homepage to render after successful login. */
-
-function Homepage() {
+  function Homepage() {
   const { user } = useContext(userContext);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
+
+  //Navigates to the lecture view upon press
   function lecturePress() {
     navigation.navigate('LectureView');
+  }
+  //Navigates to the exercise view upon press
+  function exercisePress() {
+    navigation.navigate('ExerciseView');
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.text}>Welcome!</Text>
+      <Text style={styles.text}>Welcome {user}!</Text>
 
-      <Button onPress={lecturePress} text="Lectures" style={styles.button}/>
+      <Button onPress={lecturePress} text="Lectures"/>
+      <Button onPress={exercisePress} text="Exercises"/>
+
 
     </SafeAreaView>
   );
@@ -35,22 +49,10 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    minWidth: '70%',
-    alignSelf: 'center',
+    fontSize: 20,
+    alignSelf: 'center'
   },
 
-  button: {
-    backgroundColor: '#f86161',
-    minWidth: '70%',
-    maxWidth: '70%',
-    padding: 5,
-    marginVertical: 5,
-    alignSelf: 'center',
-    textAlign: 'center',
-    borderRadius: 5,
-    fontWeight: 'bold',
-    color: 'white',
-  },
 });
 
 export default Homepage;

@@ -83,7 +83,21 @@ class SisApi {
     return res.results;
   }
 
+  static async getExercises() {
+
+  let res = await this.request(`exercisesessions/`);
+
+  return res.results;
+  }
+
+  static async getExercise(url) {
+
+    let res = await this.request(url, {}, 'GET', true);
+
+    return res;
+  }
 }
+
 
 
 export default SisApi;
