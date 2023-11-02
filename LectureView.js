@@ -20,8 +20,12 @@ function LectureView() {
 
       allLectures.map(l => lecturePromises.push(SisApi.getLecture(l.id)));
 
-      const lectureDetailedData = await Promise.all(lecturePromises);
-      console.log("lectureDetailedData", lectureDetailedData);
+      let lectureDetailedData = await Promise.all(lecturePromises);
+
+      lectureDetailedData = lectureDetailedData.sort(function (a, b) {
+        return (a.start_at < b.start_at) ? -1 : ((a.start_at > b.start_at) ? 1 : 0);
+      });
+
       setLectureData(lectureDetailedData);
       setIsLoading(false);
     }
@@ -41,41 +45,62 @@ function LectureView() {
       </SafeAreaView>
     );
   }
+  console.log("lectureData,", lectureData);
+  const futureLectures = lectureData.filter(l => new Date() < new Date(l.start_at));
+  const pastLectures = lectureData.filter(l => new Date() > new Date(l.start_at));
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Text style={styles.text}>LectureView</Text>
-        <Button onPress={homepagePress} text="Home" style={styles.button} />
+        <Text style={styles.text}>All Lectures</Text>
+
+        <Button
+          onPress={homepagePress}
+          text="Home"
+          style={styles.button} />
+
         <View>
-          {lectureData.filter(l => new Date() < new Date(l.start_at))
-          .length > 0 &&
-           <Text style={styles.text}>Future Lectures</Text> }
+          <Text style={styles.text}>Upcoming Lecture:</Text>
+          <LectureCard
+            title={futureLectures[0].title}
+            description={futureLectures[0].description}
+            startAt={futureLectures[0].start_at}
+            staff={futureLectures[0].staff}
+          />
+        </View>
+
+        <View>
+          {futureLectures.length > 0 &&
+            <Text style={styles.text}>Future Lectures:</Text>}
 
           {lectureData &&
-          lectureData.filter(l => new Date() < new Date(l.start_at))
-          .map(l => (<LectureCard
-            key={l.id}
-            title={l.title}
-            description={l.description}
-            startAt={l.start_at}
-            staff={l.staff} />))}
-
+            futureLectures
+              .slice(1)
+              .map(l => (
+                <LectureCard
+                  key={l.id}
+                  title={l.title}
+                  description={l.description}
+                  startAt={l.start_at}
+                  staff={l.staff} />
+              ))}
         </View>
+
         <View>
-          {lectureData.filter(l => new Date() > new Date(l.start_at))
-          .length > 0 &&
-           <Text style={styles.text}>Past Lectures</Text> }
+          {pastLectures.length > 0 &&
+            <Text style={styles.text}>Past Lectures:</Text>}
 
           {lectureData &&
-          lectureData.filter(l => new Date() > new Date(l.start_at))
-          .map(l => (<LectureCard
-            key={l.id}
-            title={l.title}
-            description={l.description}
-            startAt={l.start_at}
-            staff={l.staff} />))}
+            pastLectures.map(l => (
+              <LectureCard
+                key={l.id}
+                title={l.title}
+                description={l.description}
+                startAt={l.start_at}
+                staff={l.staff} />
+            ))}
         </View>
+
       </ScrollView>
     </SafeAreaView>
   );
