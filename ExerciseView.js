@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Text, SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import SisApi from "./api";
-import LectureCard from "./LectureCard";
+import ExerciseCard from "./ExerciseCard";
 import { useNavigation } from "@react-navigation/native";
 import Button from "./Button";
 
-/** ExerciseView: See all list of lectures organized by most recent
- * lecture, then by future lectures and past lectures
+/** ExerciseView: See all list of exercises organized by most recent
+ * exercise, then by future exercises and past exercises
  *
  * State:
  * -isLoading: boolean
@@ -32,48 +32,14 @@ function ExerciseView() {
       const allExercises = await SisApi.getExercises();
       const exercisePromises = [];
 
-      allExercises.map(l => exercisePromises.push(SisApi.getExercise(l.api_url)));
+      allExercises.map(e => exercisePromises.push(SisApi.getExercise(e.api_url)));
 
       let exerciseDetailedData = await Promise.all(exercisePromises);
 
-      exerciseDetailedData = exerciseDetailedData.sort(function (a, b) {
-        return (a.start_at < b.start_at) ?
-          -1 :
-          ((a.start_at > b.start_at) ?
-            1 :
-            0);
-      });
-
-      // exerciseDetailedData = await updateStaffDetails(exerciseDetailedData);
-      console.log("after update staff", exerciseDetailedData);
+      console.log("exercisedetaileddata", exerciseDetailedData);
       setExerciseData(exerciseDetailedData);
       setIsLoading(false);
     }
-    /**
-     * takes lecture data and edits staff data
-     * to replace urls with that staff's full name
-     */
-    // async function updateStaffDetails(exerciseData) {
-    //   const allStaffData = await SisApi.getAllStaff();
-
-    //   const staffDirectory = {};
-
-    //   console.log(`data from all staff fetch is`, allStaffData);
-    //   allStaffData.forEach((staff) => staffDirectory[staff.api_url] = staff.full_name);
-    //   console.log(`our staff directory is`, staffDirectory);
-
-    //   for (let exercise of exerciseData) {
-
-    //     for (let i = 0; i < exercise.staff.length; i++) {
-    //       let staffUrl = exercise.staff[i];
-    //       if (staffDirectory[staffUrl]) {
-    //         exercise.staff[i] = staffDirectory[staffUrl];
-    //       }
-    //     }
-    //   }
-
-    //   return exerciseData;
-    // }
 
     fetchExercises();
 
@@ -92,61 +58,28 @@ function ExerciseView() {
     );
   }
 
-  const futureExercises = exerciseData.filter(l => new Date() < new Date(l.start_at));
-  const pastExercises = exerciseData.filter(l => new Date() > new Date(l.start_at));
-
   return (
     <SafeAreaView style={styles.container}>
-      <Text>You made it to exerciseview</Text>
-      {/* <ScrollView>
+
+      <ScrollView>
         <Button
           onPress={homepagePress}
           text="Home"
           style={styles.button} />
 
         <View>
-          <Text style={styles.textHeader}>Upcoming Lecture:</Text>
-          <LectureCard
-            title={futureExercises[0].title}
-            description={futureExercises[0].description}
-            startAt={futureExercises[0].start_at}
-            staff={futureExercises[0].staff}
-          />
-        </View>
-
-        <View>
-          {futureExercises.slice(1).length > 0 &&
-            <Text style={styles.textHeader}>Future Lectures:</Text>}
+          {exerciseData.length > 0 &&
+            <Text style={styles.textHeader}>All Exercises:</Text>}
 
           {exerciseData &&
-            futureExercises
-              .slice(1)
-              .map(l => (
-                <LectureCard
-                  key={l.id}
-                  title={l.title}
-                  description={l.description}
-                  startAt={l.start_at}
-                  staff={l.staff} />
-              ))}
-        </View>
-
-        <View>
-          {pastExercises.length > 0 &&
-            <Text style={styles.textHeader}>Past Lectures:</Text>}
-
-          {exerciseData &&
-            pastExercises.map(l => (
-              <LectureCard
-                key={l.id}
-                title={l.title}
-                description={l.description}
-                startAt={l.start_at}
-                staff={l.staff} />
+            exerciseData.map(e => (
+              <ExerciseCard
+                title={e.title}
+                description={e.description} />
             ))}
         </View>
 
-      </ScrollView> */}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -187,4 +120,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ExerciseView
+export default ExerciseView;

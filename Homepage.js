@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { Text, StyleSheet, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import userContext from "./userContext";
 import { useContext } from "react";

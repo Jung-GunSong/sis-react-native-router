@@ -2,14 +2,14 @@ import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './Login';
-import Homepage from './HomePage'
+import Homepage from './Homepage'
 import LectureView from "./LectureView";
 import ExerciseView from "./ExerciseView";
 
 const Stack = createNativeStackNavigator();
 
 /**
- * Allows client side navigation through of a stack navigator
+ * Allows client side navigation through a stack navigator.
  *
  * State:
  * none
@@ -31,7 +31,6 @@ function Navigation() {
         <Stack.Screen name="Homepage" component={Homepage} />
         <Stack.Screen name="LectureView" component={LectureView} />
         <Stack.Screen name="ExerciseView" component={ExerciseView} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
