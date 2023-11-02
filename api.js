@@ -1,5 +1,5 @@
-const BASE_URL = "http://192.168.0.246:8000/api";
-// const BASE_URL = "http://192.168.1.79:8000/api";
+// const BASE_URL = "http://192.168.0.246:8000/api";
+const BASE_URL = "http://192.168.1.79:8000/api";
 
 
 /** API Class.

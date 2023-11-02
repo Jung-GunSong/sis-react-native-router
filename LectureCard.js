@@ -1,19 +1,29 @@
 import { Text, View, StyleSheet } from "react-native";
-import { useEffect } from "react";
-import SisApi from "./api";
 
+/** LectureCard: Reusable card to display lecture details.
+ *
+ * Props:
+ * - title: string
+ * - description: string
+ * - staff: array of strings
+ * - startAt: ISO date string
+ *
+ * LectureView -> LectureCard
+ */
 
 function LectureCard({ title, description, staff, startAt }) {
   const startAtDate = new Date(startAt);
   const readableDate = startAtDate.toDateString();
   const readableTime = startAtDate.toLocaleTimeString();
+  const staffNames = staff.join(", ")
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Title: {title}</Text>
+      <Text style={styles.title}>{title}</Text>
       <Text style={styles.text}>Description: {description}</Text>
       <Text style={styles.text}>Date: {readableDate}</Text>
       <Text style={styles.text}>Time: {readableTime}</Text>
+      <Text style={styles.text}>Staff: {staffNames}</Text>
     </View>
   );
 }
@@ -33,10 +43,15 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
   },
-
   text: {
     padding: 6,
+    fontSize: '1rem',
   },
+  title: {
+    fontWeight: 600,
+    padding: 6,
+    fontSize: '1.2rem',
+  }
 });
 
 export default LectureCard;

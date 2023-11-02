@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { StyleSheet, TextInput, SafeAreaView } from 'react-native';
+import { StyleSheet, TextInput, SafeAreaView, Text } from 'react-native';
 import userContext from "./userContext";
 import { useNavigation } from "@react-navigation/native";
 import Button from "./Button";
@@ -33,6 +33,8 @@ function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>{`{R} Rithm School`}</Text>
+
       <TextInput placeholder="Username"
         style={styles.textInput}
         value={username}
@@ -68,24 +70,19 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     borderColor: '#808080',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 4,
     marginVertical: 5,
     paddingHorizontal: 1,
     height: 50,
   },
 
-  button: {
-    backgroundColor: '#f86161',
-    minWidth: '70%',
-    maxWidth: '70%',
-    padding: 5,
-    marginVertical: 5,
+  header: {
+    fontWeight: '100',
+    fontSize: 30,
+    fontFamily: 'source serif pro',
     alignSelf: 'center',
-    textAlign: 'center',
-    borderRadius: 5,
-    fontWeight: 'bold',
-    color: 'white',
-  }
+    margin: 20,
+  },
 });
 
 export default Login;

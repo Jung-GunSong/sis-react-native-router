@@ -24,36 +24,38 @@ function LectureView() {
 
       lectureDetailedData = lectureDetailedData.sort(function (a, b) {
         return (a.start_at < b.start_at) ?
-         -1 :
-        ((a.start_at > b.start_at) ?
-        1 :
-        0);
+          -1 :
+          ((a.start_at > b.start_at) ?
+            1 :
+            0);
       });
 
-      lectureDetailedData = await updateStaffDetails(lectureDetailedData)
-      console.log(lectureDetailedData);
+      lectureDetailedData = await updateStaffDetails(lectureDetailedData);
+      console.log("after update staff", lectureDetailedData);
       setLectureData(lectureDetailedData);
       setIsLoading(false);
     }
 
-    async function updateStaffDetails(lectureData){
+    async function updateStaffDetails(lectureData) {
       const allStaffData = await SisApi.getAllStaff();
 
-      const staffDirectory= {};
+      const staffDirectory = {};
 
-      console.log(`data from all staff fetch is`,allStaffData);
-      allStaffData.forEach( (staff) => staffDirectory[staff.api_url] = staff.full_name);
+      console.log(`data from all staff fetch is`, allStaffData);
+      allStaffData.forEach((staff) => staffDirectory[staff.api_url] = staff.full_name);
       console.log(`our staff directory is`, staffDirectory);
-      for (let lecture of lectureData){
-        for (let staffUrl of lecture.staff){
-          if (staffDirectory[staffUrl]){
-            staffUrl = staffDirectory[staffUrl];
+
+      for (let lecture of lectureData) {
+
+        for (let i = 0; i < lecture.staff.length; i++) {
+          let staffUrl = lecture.staff[i];
+          if (staffDirectory[staffUrl]) {
+            lecture.staff[i] = staffDirectory[staffUrl];
           }
         }
       }
 
-      return lectureData
-
+      return lectureData;
     }
 
     fetchLectures();
@@ -78,7 +80,6 @@ function LectureView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Text style={styles.text}>All Lectures</Text>
 
         <Button
           onPress={homepagePress}
@@ -86,7 +87,7 @@ function LectureView() {
           style={styles.button} />
 
         <View>
-          <Text style={styles.text}>Upcoming Lecture:</Text>
+          <Text style={styles.textHeader}>Upcoming Lecture:</Text>
           <LectureCard
             title={futureLectures[0].title}
             description={futureLectures[0].description}
@@ -97,7 +98,7 @@ function LectureView() {
 
         <View>
           {futureLectures.slice(1).length > 0 &&
-            <Text style={styles.text}>Future Lectures:</Text>}
+            <Text style={styles.textHeader}>Future Lectures:</Text>}
 
           {lectureData &&
             futureLectures
@@ -114,7 +115,7 @@ function LectureView() {
 
         <View>
           {pastLectures.length > 0 &&
-            <Text style={styles.text}>Past Lectures:</Text>}
+            <Text style={styles.textHeader}>Past Lectures:</Text>}
 
           {lectureData &&
             pastLectures.map(l => (
@@ -158,6 +159,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+
+  textHeader: {
+    alignSelf: 'center',
+    fontWeight: 900,
+    padding: 6,
+    fontSize: '1.3rem',
+  }
 });
 
 

@@ -2,8 +2,14 @@ import { Pressable, Text, StyleSheet, View } from "react-native";
 import React from "react";
 
 
-/** Button: Reusable button */
-function Button({text, onPress}) {
+/** Button: Reusable button
+ *
+ * Props:
+ * - text: string
+ * - onPress(): function when pressed
+ */
+
+function Button({ text, onPress }) {
   return (
     <Pressable onPress={onPress}>
       <Text style={styles.button}>{text}</Text>
@@ -14,16 +20,18 @@ function Button({text, onPress}) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: '#f86161',
-    minWidth: '70%',
-    maxWidth: '70%',
+    minWidth: '100%',
+    maxWidth: '100%',
     padding: 5,
-    marginVertical: 5,
+    marginVertical: 20,
     alignSelf: 'center',
     textAlign: 'center',
-    borderRadius: 5,
+    borderRadius: 4,
     fontWeight: 'bold',
     color: 'white',
+    overflow: 'hidden',
   },
+
 });
 
 export default Button;
