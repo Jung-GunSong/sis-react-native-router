@@ -23,11 +23,37 @@ function LectureView() {
       let lectureDetailedData = await Promise.all(lecturePromises);
 
       lectureDetailedData = lectureDetailedData.sort(function (a, b) {
-        return (a.start_at < b.start_at) ? -1 : ((a.start_at > b.start_at) ? 1 : 0);
+        return (a.start_at < b.start_at) ?
+         -1 :
+        ((a.start_at > b.start_at) ?
+        1 :
+        0);
       });
 
+      lectureDetailedData = await updateStaffDetails(lectureDetailedData)
+      console.log(lectureDetailedData);
       setLectureData(lectureDetailedData);
       setIsLoading(false);
+    }
+
+    async function updateStaffDetails(lectureData){
+      const allStaffData = await SisApi.getAllStaff();
+
+      const staffDirectory= {};
+
+      console.log(`data from all staff fetch is`,allStaffData);
+      allStaffData.forEach( (staff) => staffDirectory[staff.api_url] = staff.full_name);
+      console.log(`our staff directory is`, staffDirectory);
+      for (let lecture of lectureData){
+        for (let staffUrl of lecture.staff){
+          if (staffDirectory[staffUrl]){
+            staffUrl = staffDirectory[staffUrl];
+          }
+        }
+      }
+
+      return lectureData
+
     }
 
     fetchLectures();
@@ -45,7 +71,7 @@ function LectureView() {
       </SafeAreaView>
     );
   }
-  console.log("lectureData,", lectureData);
+
   const futureLectures = lectureData.filter(l => new Date() < new Date(l.start_at));
   const pastLectures = lectureData.filter(l => new Date() > new Date(l.start_at));
 
@@ -70,7 +96,7 @@ function LectureView() {
         </View>
 
         <View>
-          {futureLectures.length > 0 &&
+          {futureLectures.slice(1).length > 0 &&
             <Text style={styles.text}>Future Lectures:</Text>}
 
           {lectureData &&
@@ -136,3 +162,13 @@ const styles = StyleSheet.create({
 
 
 export default LectureView;
+
+/**
+ * Start by retrieving all staff from cohort
+ * set Staff state to res.results
+ * map through lectureData, if url in l.staff === staff.api_url,
+ * then return staff.full_name
+ * cards will have full names,
+ *
+ *
+ */
