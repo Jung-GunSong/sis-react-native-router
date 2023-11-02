@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet } from "react-native";
+import { useEffect } from "react";
 import SisApi from "./api";
 
 
@@ -6,13 +7,6 @@ function LectureCard({ title, description, staff, startAt }) {
   const startAtDate = new Date(startAt);
   const readableDate = startAtDate.toDateString();
   const readableTime = startAtDate.toLocaleTimeString();
-
-  // TODO: api calls for staff?
-  // let staffPromises = [];
-  // staff.map(s => (
-  //   SisApi.getStaffDetails(s)
-  // ));
-
 
   return (
     <View style={styles.container}>
