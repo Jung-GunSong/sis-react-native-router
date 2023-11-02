@@ -18,7 +18,10 @@ function LectureCard({ title, description, staff, startAt }) {
   const staffNames = staff.join(", ")
 
   return (
+
     <View style={styles.container}>
+      {console.log(`Making a card`)}
+      {console.log(`Card title is`, title)}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.text}>Description: {description}</Text>
       <Text style={styles.text}>Date: {readableDate}</Text>
@@ -45,12 +48,12 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 6,
-    fontSize: '1rem',
+    fontSize: 15,
   },
   title: {
-    fontWeight: 600,
+    fontWeight: 'bold',
     padding: 6,
-    fontSize: '1.2rem',
+    fontSize: 25,
   }
 });
 

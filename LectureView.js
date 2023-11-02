@@ -80,7 +80,7 @@ function LectureView() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-
+        {console.log(`starting render`)}
         <Button
           onPress={homepagePress}
           text="Home"
@@ -162,21 +162,11 @@ const styles = StyleSheet.create({
 
   textHeader: {
     alignSelf: 'center',
-    fontWeight: 900,
+    fontWeight: 'bold',
     padding: 6,
-    fontSize: '1.3rem',
+    fontSize: 20,
   }
 });
 
 
 export default LectureView;
-
-/**
- * Start by retrieving all staff from cohort
- * set Staff state to res.results
- * map through lectureData, if url in l.staff === staff.api_url,
- * then return staff.full_name
- * cards will have full names,
- *
- *
- */

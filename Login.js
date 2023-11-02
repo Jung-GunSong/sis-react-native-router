@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
 
   header: {
     fontWeight: '100',
-    fontSize: 30,
-    fontFamily: 'source serif pro',
+    fontSize: 25,
+    fontFamily: 'serif',
     alignSelf: 'center',
     margin: 20,
   },
